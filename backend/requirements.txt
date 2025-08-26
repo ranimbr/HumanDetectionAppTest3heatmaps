@@ -1,0 +1,37 @@
+# ==== Framework principal ====
+Django==5.2.1
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
+
+# ==== Base de données MongoDB ====
+mongoengine==0.29.1
+pymongo==4.10.1
+
+# ==== Sécurité et Auth ====
+PyJWT==2.10.1
+python-dotenv==1.0.1
+
+# ==== Vision par ordinateur ====
+ultralytics==8.3.39
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+pillow==10.4.0
+
+# ==== MLOps et suivi d'expériences ====
+mlflow==2.16.0
+dvc[gdrive]==3.51.2
+
+# ==== Tests et couverture ====
+pytest==8.3.3
+pytest-django==4.8.0
+coverage==7.6.1
+
+# ==== Outils utils ====
+requests==2.32.3
+tqdm==4.66.5
+matplotlib==3.9.2
+seaborn==0.13.2
+
+# ==== Déploiement ====
+gunicorn==23.0.0
+shapely==2.0.4

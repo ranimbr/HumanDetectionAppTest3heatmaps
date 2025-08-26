@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YOLO Video Heatmap Detection</title>
+  <link rel="stylesheet" href="{% static 'css/Index3.css' %}" />
+</head>
+<body>
+  <header>
+    <!-- LOGO animé -->
+    <div class="logo-container">
+      <img src="{% static 'images/logovisshopai.png' %}" alt="Company Logo" class="animated-logo">
+    </div>
+    <h1>YOLO Video Heatmap Detection</h1>
+    <button id="theme-toggle">Toggle Light Theme</button>
+  </header>
+
+  <main class="detection-carousel">
+    <!-- FORMULAIRE 1 -->
+    <div class="card" data-index="0">
+      <h3>Detect Density Zones in Video</h3>
+      <form method="POST" action="{% url 'upload_video_density_zones' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="video1">Upload a video:</label>
+        <input type="file" id="video1" name="video_file" accept="video/*" required>
+        <label for="json1">Upload JSON annotation:</label>
+        <input type="file" id="json1" name="json_file" accept=".json" required>
+        <button type="submit">Detect Density Zones</button>
+
+        <!-- Loader -->
+        <div class="loader-overlay" style="display: none;">
+          <div class="loader"></div>
+          <p>Processing...</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- FORMULAIRE 2 -->
+    <div class="card" data-index="1">
+      <h3>Detect Stop Time Zones in Video</h3>
+      <form method="POST" action="{% url 'upload_video_stop_time' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="video2">Upload a video:</label>
+        <input type="file" id="video2" name="video_file" accept="video/*" required>
+        <label for="json2">Upload JSON annotation:</label>
+        <input type="file" id="json2" name="json_file" accept=".json" required>
+        <button type="submit">Detect Stop Time Zones</button>
+
+        <!-- Loader -->
+        <div class="loader-overlay" style="display: none;">
+          <div class="loader"></div>
+          <p>Processing...</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- FORMULAIRE 3 -->
+    <div class="card" data-index="2">
+      <h3>Detect Product Interaction in Video</h3>
+      <form method="POST" action="{% url 'upload_video_product_interaction' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="video3">Upload a video:</label>
+        <input type="file" id="video3" name="video_file" accept="video/*" required>
+        <label for="json3">Upload JSON annotation:</label>
+        <input type="file" id="json3" name="json_file" accept=".json" required>
+        <button type="submit">Detect Product Interaction</button>
+
+        <!-- Loader -->
+        <div class="loader-overlay" style="display: none;">
+          <div class="loader"></div>
+          <p>Traitement en cours...</p>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <div class="carousel-navigation">
+    <button id="prev-card">Previous</button>
+    <button id="next-card">Next</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 YOLO Video Heatmap Detection</p>
+  </footer>
+
+  <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>

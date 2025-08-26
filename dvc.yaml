@@ -1,0 +1,27 @@
+stages:
+  preprocess:
+    cmd: python backend/scripts/preprocess.py
+    deps:
+      - backend/scripts/preprocess.py
+      - data/raw/
+    outs:
+      - data/processed/
+
+  train:
+    cmd: python backend/scripts/train.py
+    deps:
+      - data/processed/
+      - backend/scripts/train.py
+    outs:
+      - models/model.pt
+    metrics:
+      - metrics.json
+
+  evaluate:
+    cmd: python backend/scripts/evaluate.py
+    deps:
+      - models/model.pt
+      - data/processed/
+      - backend/scripts/evaluate.py
+    metrics:
+      - metrics.json

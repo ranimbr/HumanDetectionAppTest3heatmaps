@@ -1,0 +1,296 @@
+/* ------------------ */
+/* static/css/result.css */
+
+/* ------------------ */
+/* Variables globales */
+:root {
+    --dark-bg: #000000;
+    --dark-secondary: #1E1E1E;
+    --dark-text-primary: #e9e1fe;
+    --dark-text-secondary: #b8ace5;
+    --light-bg: #ede1fe;
+    --light-secondary: #bdace5;
+    --light-text-primary: #000000;
+    --light-text-secondary: #2a236d;
+    --accent-color: #c2ace5;
+    --transition-duration: 0.4s;
+    --animation-duration: 0.4s;
+}
+
+/* ------------------ */
+/* Body */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(120deg, var(--dark-bg), #1a1a1a);
+    color: var(--dark-text-primary);
+    margin: 0;
+    padding: 3rem;
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+/* ------------------ */
+/* Header */
+header {
+    background-color: var(--dark-secondary);
+    color: var(--dark-text-primary);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    max-width: 960px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+header button {
+    background-color: var(--accent-color);
+    color: var(--dark-secondary);
+    border: none;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+header button:hover {
+    background-color: #9f91d4;
+    color: var(--dark-bg);
+}
+
+/* ------------------ */
+/* Container général */
+.container {
+    width: 80%;
+    max-width: 960px;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1, h2, h3, p {
+    text-align: center;
+    color: var(--dark-text-primary);
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ------------------ */
+/* h3 avancé avec glow et pulse */
+h3 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    transition: text-shadow 0.4s ease, transform 0.4s ease, color 0.4s ease;
+    will-change: transform, text-shadow, color;
+}
+
+h3::before {
+    content: attr(data-icon);
+    font-size: 1.3rem;
+    transition: transform 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+}
+
+h3:hover {
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.7), 0 0 12px var(--accent-color);
+    color: #fff;
+    transform: translateY(-3px) scale(1.02);
+    animation: pulse 1s infinite alternate;
+}
+
+h3:hover::before {
+    transform: scale(1.4) rotate(10deg);
+    text-shadow: 0 0 10px var(--accent-color);
+}
+
+@keyframes pulse {
+    0% { text-shadow: 2px 2px 12px rgba(0,0,0,0.7), 0 0 12px var(--accent-color); }
+    100% { text-shadow: 2px 2px 14px rgba(0,0,0,0.8), 0 0 18px var(--accent-color); }
+}
+
+/* ------------------ */
+/* Boutons modernes */
+.detection-results-button,
+.button-style {
+    background: linear-gradient(135deg, var(--accent-color), #b699e3);
+    color: var(--dark-secondary);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.4s ease;
+    margin-top: 1rem;
+    display: inline-block;
+    will-change: transform, box-shadow, background;
+}
+
+.detection-results-button {
+    margin-bottom: 1.5rem;
+}
+
+.detection-results-button:hover,
+.button-style:hover {
+    background: linear-gradient(135deg, #9f91d4, #c2ace5);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 0 15px var(--accent-color);
+    transform: translateY(-3px) scale(1.03);
+}
+
+/* ------------------ */
+/* Conteneur détails */
+.detection-details-container {
+    background-color: var(--dark-secondary);
+    color: var(--dark-text-primary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 1050px;
+    text-align: left;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    display: none;
+}
+
+.detection-details-container h3 {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.detection-details-container .download-details-button {
+    text-align: left;
+    font-size: 0.7em;
+    transform: translateX(0);
+    margin-left: 0;
+}
+
+/* ------------------ */
+/* Light theme */
+body.light-theme {
+    background: linear-gradient(120deg, var(--light-bg), #d8c9f2);
+    color: var(--light-text-primary);
+}
+
+body.light-theme header {
+    background-color: var(--light-secondary);
+    color: var(--light-text-primary);
+}
+
+body.light-theme header button {
+    background-color: var(--light-text-secondary);
+    color: var(--light-text-primary);
+}
+
+body.light-theme header button:hover {
+    background-color: var(--light-text-secondary);
+    color: var(--light-text-primary);
+}
+
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme p {
+    color: var(--light-text-primary);
+}
+
+body.light-theme .detection-results-button,
+body.light-theme .button-style {
+    background-color: var(--light-text-secondary);
+    color: var(--light-text-primary);
+}
+
+body.light-theme .detection-results-button:hover,
+body.light-theme .button-style:hover {
+    background-color: #9697c1;
+    color: var(--light-text-primary);
+}
+
+body.light-theme .detection-details-container {
+    background-color: var(--light-secondary);
+    color: var(--light-text-primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ------------------ */
+/* Images et vidéos avancées */
+@keyframes floatXY {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(3px, -4px); }
+    50% { transform: translate(-3px, 4px); }
+    75% { transform: translate(2px, -2px); }
+    100% { transform: translate(0px, 0px); }
+}
+
+img, video {
+    max-width: 580px;
+    width: 100%;
+    height: 380px;
+    display: block;
+    margin: 0 auto 1em;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+    animation: floatXY 8s ease-in-out infinite;
+    will-change: transform, box-shadow, filter;
+}
+
+img:hover, video:hover {
+    transform: scale(1.5) rotate(-1deg);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 25px var(--accent-color);
+    filter: brightness(1.1) saturate(1.1);
+    animation: floatXY 4s ease-in-out infinite;
+}
+
+/* ------------------ */
+/* Animations pour Detection Results et Detection Complete */
+@keyframes slideFadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+    0% { text-shadow: 0 0 10px var(--accent-color); }
+    50% { text-shadow: 0 0 20px var(--accent-color); }
+    100% { text-shadow: 0 0 10px var(--accent-color); }
+}
+
+h1 { 
+    opacity: 0;
+    animation: slideFadeIn 0.8s ease forwards, glowPulse 1.5s ease-in-out infinite alternate;
+}
+
+h2 {
+    opacity: 0;
+    animation: slideFadeIn 0.8s ease 0.3s forwards, glowPulse 1.5s ease-in-out 0.3s infinite alternate;
+}

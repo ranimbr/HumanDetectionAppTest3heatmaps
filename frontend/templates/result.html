@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Detection Results</title>
+    <link rel="stylesheet" href="{% static 'css/result0.css' %}" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Detection Results</h1>
+            <button id="theme-toggle">Toggle Light Theme</button>
+        </header>
+
+        {% if input_type == 'image' %}
+            <h2>Detection Complete</h2>
+            <div style="text-align:center;">
+                <h3 data-icon="📸">Annotated Image</h3>
+                <img src="{{ MEDIA_URL }}{{ annotated_image_path }}" alt="Annotated Image" />
+                <br />
+                <a href="{{ MEDIA_URL }}{{ annotated_image_path }}" download="{{ original_filename|slice:":-4" }}_annotated.png" class="button-style">Download Annotated Image</a>
+            </div>
+
+            <div style="text-align:center; margin-top: 20px;">
+                <h3 data-icon="🔥">Heatmap</h3>
+                <img src="{{ MEDIA_URL }}{{ heatmap_path }}" alt="Heatmap" />
+                <br />
+                <a href="{{ MEDIA_URL }}{{ heatmap_path }}" download="{{ original_filename|slice:":-4" }}_heatmap.png" class="button-style">Download Heatmap</a>
+            </div>
+
+            <p>Personnes détectées : {{ total_people_detected }}</p>
+            <p>Nombre par zone : {{ zone_counts }}</p>
+
+        {% elif input_type == 'video' %}
+            <h2>Detection Complete</h2>
+
+            {% if output_video_path %}
+                <div style="text-align: center;">
+                    <video controls src="{{ MEDIA_URL }}{{ output_video_path }}"></video>
+                    <br />
+                    <a href="{{ MEDIA_URL }}{{ output_video_path }}" download="{{ original_filename|slice:":-4" }}_detected.mp4" class="button-style">Download Detected Video</a>
+                </div>
+            {% else %}
+                <p>No video to download.</p>
+            {% endif %}
+
+            <button class="detection-results-button" id="show-results-button">Show Detection Details</button>
+
+            <div class="detection-details-container" id="detection-details-container">
+                <h3 data-icon="📸">Last Frame with Heatmap</h3>
+                <img src="{{ MEDIA_URL }}{{ last_frame_path }}" alt="Last Frame" />
+                <a href="{{ MEDIA_URL }}{{ last_frame_path }}" download class="button-style">Download Image</a>
+
+                <h3 data-icon="🔥">Cumulative Heatmap (masked)</h3>
+                <img src="{{ MEDIA_URL }}{{ heatmap_path }}" alt="Cumulative Heatmap" />
+                <a href="{{ MEDIA_URL }}{{ heatmap_path }}" download class="button-style">Download Image</a>
+
+                <h3 data-icon="📈">Zone Count Evolution</h3>
+                <img src="{{ MEDIA_URL }}{{ evolution_graph_path }}" alt="Zone Count Evolution" />
+                <a href="{{ MEDIA_URL }}{{ evolution_graph_path }}" download class="button-style">Download Image</a>
+            </div>
+
+        {% elif input_type == 'webcam' %}
+            <h2>Webcam Detection Output</h2>
+            {% if video_bytes %}
+                <div style="text-align: center;">
+                    <a href="data:video/mp4;base64,{{ video_bytes }}" download="webcam_detected.mp4" class="button-style">Download Webcam Output</a>
+                </div>
+            {% else %}
+                <p>No webcam output to display.</p>
+            {% endif %}
+
+            {% if detection_details %}
+                <button class="detection-results-button" id="show-results-button">Show Detection Details</button>
+                <div class="detection-details-container" id="detection-details-container">
+                    <h3 data-icon="📊">Detection Details</h3>
+                    <pre>{{ detection_details }}</pre>
+                    <a href="data:text/plain;charset=utf-8,{{ detection_details|urlencode }}" download="webcam_detection_results.txt" class="button-style download-details-button">Download Detection Details</a>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <a href="{% url 'index' %}" class="button-style">Go Back</a>
+    </div>
+
+    <script src="{% static 'js/result.js' %}"></script>
+</body>
+</html>

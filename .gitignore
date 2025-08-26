@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Django / Environment
+*.sqlite3
+.env
+media/uploads/
+media/results/
+
+# VS Code & system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# MLflow
+mlruns/
+
+# DVC cache & lock (si trop volumineux ou local)
+.dvc/cache/
+.dvc/tmp/
+.dvc.lock
+
+# Docker
+*.pid
+*.sock
+*.pid.lock
+
+# Pytest cache
+.pytest_cache/
+coverage/
+htmlcov/
+*.cover
+.tox/
+.nox/
+venv/
+backend/backend/venv/
+
+# Dossier de vidéos de test
+backend/test_files/
+# Ignorer le modèle YOLO
+*.pt

@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../:/app
+      - ../media:/app/media
+      - ../mlruns:/mlruns         # <-- Monté sous /mlruns, identique aux autres containers
+    env_file:
+      - ./backend/.env.docker
+    depends_on:
+      - mongo
+    command: >
+      gunicorn backend.wsgi:application
+      --chdir backend
+      --bind 0.0.0.0:8000
+      --timeout 300
+      --workers 1  
+
+  mongo:
+    image: mongo:6.0
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  mlflow-ui:
+    image: ghcr.io/mlflow/mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../mlruns:/mlruns          # <-- même chemin /mlruns que dans web
+    command: mlflow ui --backend-store-uri file:/mlruns --host 0.0.0.0
+
+volumes:
+  mongo_data:
