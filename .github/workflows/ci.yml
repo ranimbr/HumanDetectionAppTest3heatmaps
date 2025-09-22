@@ -17,36 +17,41 @@ jobs:
           - 27017:27017
 
     steps:
+      # Checkout avec LFS
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
+      # Pull des objets LFS
+      - name: Pull LFS objects
+        run: git lfs pull
+
+      # Setup Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
+      # Installation des dépendances
       - name: Install dependencies
         run: |
           cd backend
           pip install -r requirements.txt
           pip install pytest flake8 dvc mlflow
 
+      # Linting
       - name: Lint code
         run: flake8 backend
 
+      # Tests unitaires
       - name: Run unit tests
         run: |
           cd backend
           pytest detection/tests.py
 
+      # Test du pipeline DVC
       - name: DVC pipeline test
         run: |
           dvc pull
           dvc repro
-
-      - name: Save MLflow artifacts
-        if: success()
-        uses: actions/upload-artifact@v3
-        with:
-          name: mlruns
-          path: mlruns
