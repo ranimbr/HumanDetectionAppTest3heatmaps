@@ -1,0 +1,108 @@
+schema: '2.0'
+stages:
+  process_video_density:
+    cmd: python backend/detection/yolo_heatmap.py --mode density --video 
+      data/raw/video_density.mp4 --json data/raw/zones_density.json --output 
+      data/processed/density
+    deps:
+    - path: backend/detection/yolo_heatmap.py
+      hash: md5
+      md5: 56d0536b56b0406f2734c22016df972a
+      size: 17660
+    - path: data/raw/video_density.mp4
+      hash: md5
+      md5: b33b38596ae206967f77eb175bb3f2f3
+      size: 9891110
+    - path: data/raw/zones_density.json
+      hash: md5
+      md5: cb5a87b7feb2174cab2869018d829499
+      size: 2282
+    outs:
+    - path: data/processed/density/heatmap.png
+      hash: md5
+      md5: e6e71d0e1346b4c75151b16860554ce0
+      size: 188233
+    - path: data/processed/density/last_frame.png
+      hash: md5
+      md5: d691cb4df9f9da6a3618de88a12ed9d3
+      size: 1232102
+    - path: data/processed/density/output_video.mp4
+      hash: md5
+      md5: e9f3535d175dd6d392ce3f3dbf00a3e9
+      size: 29178707
+    - path: data/processed/density/zone_counts_evolution.png
+      hash: md5
+      md5: 0307b2c506fb6d16aa59104dccc1caeb
+      size: 102032
+  process_video_stop:
+    cmd: python backend/detection/yolo_heatmap.py --mode stop --video 
+      data/raw/video_stop.mp4 --json data/raw/zones_stop.json --output 
+      data/processed/stop
+    deps:
+    - path: backend/detection/yolo_heatmap.py
+      hash: md5
+      md5: 56d0536b56b0406f2734c22016df972a
+      size: 17660
+    - path: data/raw/video_stop.mp4
+      hash: md5
+      md5: 771a3d0cf8124f1cc1e434deb977e599
+      size: 27477149
+    - path: data/raw/zones_stop.json
+      hash: md5
+      md5: 2833be83185d2d168b76bd247c4b62fe
+      size: 672
+    outs:
+    - path: data/processed/stop/heatmap.png
+      hash: md5
+      md5: 90fbf16761f9bfbb3803fda86aee8be6
+      size: 108155
+    - path: data/processed/stop/last_frame.png
+      hash: md5
+      md5: 761234c16fe113bb942b168eb5c5d938
+      size: 6736240
+    - path: data/processed/stop/output_video.mp4
+      hash: md5
+      md5: cc2e31e77656d7c8e1a8eda232843d3f
+      size: 45931697
+    - path: data/processed/stop/stop_history.png
+      hash: md5
+      md5: 6d797d6f8e0e28088bd5e82aebabeed6
+      size: 54469
+  process_video_product:
+    cmd: python backend/detection/yolo_heatmap.py --mode product --video 
+      data/raw/video_product.mp4 --json data/raw/zones_product.json --output 
+      data/processed/product
+    deps:
+    - path: backend/detection/yolo_heatmap.py
+      hash: md5
+      md5: 56d0536b56b0406f2734c22016df972a
+      size: 17660
+    - path: data/raw/video_product.mp4
+      hash: md5
+      md5: 13a43b3c4ad86bc5dff52121b17b447c
+      size: 29089849
+    - path: data/raw/zones_product.json
+      hash: md5
+      md5: 243733fcc62d06e5013db4df434f7776
+      size: 665
+    outs:
+    - path: data/processed/product/heatmap_global.png
+      hash: md5
+      md5: 3ebdc4ed9520c9a437e94b86133d3668
+      size: 35853
+    - path: data/processed/product/heatmap_products.png
+      hash: md5
+      md5: 3ebdc4ed9520c9a437e94b86133d3668
+      size: 35853
+    - path: data/processed/product/interaction_evolution.png
+      hash: md5
+      md5: cd6727d438ac290bf69543ae81470aab
+      size: 28068
+    - path: data/processed/product/last_frame.png
+      hash: md5
+      md5: 5a786d19262a264c5534f23c14660e94
+      size: 8860250
+    - path: data/processed/product/output_video.mp4
+      hash: md5
+      md5: 9be8b1952e874474d7e20662d099b15b
+      size: 34538661

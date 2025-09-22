@@ -1,27 +1,37 @@
 stages:
-  preprocess:
-    cmd: python backend/scripts/preprocess.py
+  process_video_density:
+    cmd: python backend/detection/yolo_heatmap.py --mode density --video data/raw/video_density.mp4 --json data/raw/zones_density.json --output data/processed/density
     deps:
-      - backend/scripts/preprocess.py
-      - data/raw/
+      - backend/detection/yolo_heatmap.py
+      - data/raw/video_density.mp4
+      - data/raw/zones_density.json
     outs:
-      - data/processed/
+      - data/processed/density/output_video.mp4
+      - data/processed/density/heatmap.png
+      - data/processed/density/last_frame.png
+      - data/processed/density/zone_counts_evolution.png
 
-  train:
-    cmd: python backend/scripts/train.py
+  process_video_stop:
+    cmd: python backend/detection/yolo_heatmap.py --mode stop --video data/raw/video_stop.mp4 --json data/raw/zones_stop.json --output data/processed/stop
     deps:
-      - data/processed/
-      - backend/scripts/train.py
+      - backend/detection/yolo_heatmap.py
+      - data/raw/video_stop.mp4
+      - data/raw/zones_stop.json
     outs:
-      - models/model.pt
-    metrics:
-      - metrics.json
+      - data/processed/stop/output_video.mp4
+      - data/processed/stop/heatmap.png
+      - data/processed/stop/last_frame.png
+      - data/processed/stop/stop_history.png
 
-  evaluate:
-    cmd: python backend/scripts/evaluate.py
+  process_video_product:
+    cmd: python backend/detection/yolo_heatmap.py --mode product --video data/raw/video_product.mp4 --json data/raw/zones_product.json --output data/processed/product
     deps:
-      - models/model.pt
-      - data/processed/
-      - backend/scripts/evaluate.py
-    metrics:
-      - metrics.json
+      - backend/detection/yolo_heatmap.py
+      - data/raw/video_product.mp4
+      - data/raw/zones_product.json
+    outs:
+      - data/processed/product/output_video.mp4
+      - data/processed/product/heatmap_global.png
+      - data/processed/product/heatmap_products.png
+      - data/processed/product/last_frame.png
+      - data/processed/product/interaction_evolution.png
