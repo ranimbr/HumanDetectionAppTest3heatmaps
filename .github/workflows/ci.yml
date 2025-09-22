@@ -15,16 +15,14 @@ jobs:
         image: mongo:6.0
         ports:
           - 27017:27017
-        # Ne pas utiliser --health-cmd ici !
 
     steps:
-      # Checkout repository
+      # Checkout repository avec LFS
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
 
-      # Pull des objets LFS
       - name: Pull LFS objects
         run: git lfs pull
 
@@ -34,10 +32,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      # Installation des dépendances
+      # Installer dépendances
       - name: Install dependencies
         run: |
           cd backend
+          pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest flake8 dvc mlflow
 
@@ -45,7 +44,7 @@ jobs:
       - name: Lint code
         run: flake8 backend --max-line-length=120 --ignore=E402,F401 || true
 
-      # Attendre que MongoDB soit prêt
+      # Attendre MongoDB (retry avec TCP)
       - name: Wait for MongoDB
         run: |
           echo "Waiting for MongoDB to be ready..."
@@ -58,7 +57,7 @@ jobs:
             sleep 5
           done
 
-      # Tests unitaires
+      # Tests unitaires Django
       - name: Run unit tests
         run: |
           cd backend
