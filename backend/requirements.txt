@@ -35,3 +35,6 @@ seaborn==0.13.2
 # ==== Déploiement ====
 gunicorn==23.0.0
 shapely==2.0.4
+# ==== Détection multi-objets / tracking ====
+deep_sort_realtime==1.5.6
+
