@@ -16,7 +16,8 @@ ultralytics==8.3.39
 opencv-python-headless==4.10.0.84
 numpy==1.26.4
 pillow==10.4.0
-moviepy==2.1.3
+moviepy>=2.0.0,<3.0.0
+
 
 # ==== MLOps et suivi d'expériences ====
 mlflow==2.16.0
