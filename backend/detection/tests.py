@@ -1,7 +1,11 @@
 import pytest
 import os
+import tempfile
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
+
+# Pour créer une vidéo temporaire valide
+from moviepy.editor import ColorClip
 
 FILES_MAPPING = {
     'density': {
@@ -20,12 +24,27 @@ FILES_MAPPING = {
 
 def get_uploaded_files(test_key):
     paths = FILES_MAPPING[test_key]
-    if not (os.path.exists(paths['video']) and os.path.exists(paths['json'])):
-        pytest.skip(f"Fichiers de test manquants pour {test_key}.")
-    
-    with open(paths['video'], 'rb') as vf, open(paths['json'], 'rb') as jf:
-        video = SimpleUploadedFile(os.path.basename(paths['video']), vf.read(), content_type="video/mp4")
-        json_file = SimpleUploadedFile(os.path.basename(paths['json']), jf.read(), content_type="application/json")
+
+    # Générer une vidéo temporaire si le fichier n'existe pas
+    if not os.path.exists(paths['video']):
+        temp_video = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
+        clip = ColorClip(size=(640, 480), color=(0,0,0), duration=1)  # 1 sec, noir
+        clip.write_videofile(temp_video.name, fps=24, codec='libx264', audio=False, verbose=False, logger=None)
+        video_path = temp_video.name
+    else:
+        video_path = paths['video']
+
+    # Générer un JSON temporaire si le fichier n'existe pas
+    if not os.path.exists(paths['json']):
+        json_path = tempfile.NamedTemporaryFile(suffix=".json", delete=False).name
+        with open(json_path, 'w') as f:
+            f.write("{}")
+    else:
+        json_path = paths['json']
+
+    with open(video_path, 'rb') as vf, open(json_path, 'rb') as jf:
+        video = SimpleUploadedFile(os.path.basename(video_path), vf.read(), content_type="video/mp4")
+        json_file = SimpleUploadedFile(os.path.basename(json_path), jf.read(), content_type="application/json")
         return video, json_file
 
 @pytest.mark.django_db
