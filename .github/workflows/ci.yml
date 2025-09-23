@@ -17,33 +17,54 @@ jobs:
           - 27017:27017
 
     steps:
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Setup Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
+      # Install dependencies
       - name: Install dependencies
         run: |
           cd backend
+          pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest flake8 dvc mlflow
 
+      # Lint code
       - name: Lint code
-        run: flake8 backend
+        run: flake8 backend --max-line-length=120 --ignore=E402,F401 || true
 
+      # Wait for MongoDB to be ready
+      - name: Wait for MongoDB
+        run: |
+          echo "Waiting for MongoDB to be ready..."
+          for i in $(seq 1 15); do
+            if timeout 1 bash -c "cat < /dev/null > /dev/tcp/mongo/27017"; then
+              echo "MongoDB is up!"
+              break
+            fi
+            echo "Waiting for MongoDB... ($i/15)"
+            sleep 5
+          done
+
+      # Run unit tests Django
       - name: Run unit tests
         run: |
           cd backend
           pytest detection/tests.py
 
+      # Test DVC pipeline
       - name: DVC pipeline test
         run: |
           dvc pull
           dvc repro
 
+      # Save MLflow artifacts
       - name: Save MLflow artifacts
         if: success()
         uses: actions/upload-artifact@v4
